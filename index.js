@@ -11,8 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("CAR DOCTOR SERVER is running");
+  res.send("CAR SERVER is running");
 });
 app.listen(port, () => {
-  console.log(`CAR DOCTOR SERVER is running on port ${port}`);
+  console.log(`CAR SERVER is running on port ${port}`);
 });
