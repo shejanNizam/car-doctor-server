@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
 require("dotenv").config();
@@ -42,12 +42,12 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
 
-      const options = {
-        // Include only the `title` and `imdb` fields in the returned document
-        projection: { title: 1, price: 1, service_id: 1, img: 1 },
-      };
+      // const options = {
+      //   // Include only the `title` and `imdb` fields in the returned document
+      //   projection: { title: 1, price: 1, service_id: 1, img: 1 },
+      // };
 
-      const result = await serviceCollection.findOne(query, options);
+      const result = await serviceCollection.findOne(query);
       res.send(result);
     });
 
