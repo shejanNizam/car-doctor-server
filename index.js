@@ -32,6 +32,8 @@ async function run() {
     const serviceCollection = client.db("carDoctor").collection("services");
     const bookingCollection = client.db("carDoctor").collection("bookings");
 
+    //services related api
+
     // get all data ( Read Operation )
     app.get("/services", async (req, res) => {
       const result = await serviceCollection.find().toArray();
@@ -46,6 +48,18 @@ async function run() {
         projection: { title: 1, price: 1, service_id: 1, img: 1 },
       };
       const result = await serviceCollection.findOne(query, options);
+      res.send(result);
+    });
+
+    // booking related api
+
+    // get some data with query ( Read Operation )
+    app.get("/bookings", async (req, res) => {
+      let query = {};
+      if (req.query.email) {
+        query = { email: req.query.email };
+      }
+      const result = await bookingCollection.find(query).toArray();
       res.send(result);
     });
 
