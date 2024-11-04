@@ -31,23 +31,20 @@ async function run() {
 
     const serviceCollection = client.db("carDoctor").collection("services");
 
-    //  get all data ( Read operation  )
+    // get all data ( Read Operation )
     app.get("/services", async (req, res) => {
       const result = await serviceCollection.find().toArray();
       res.send(result);
     });
 
-    //  get single data ( Read operation  )
+    // get single data ( Read Operation )
     app.get("/services/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-
-      // const options = {
-      //   // Include only the `title` and `imdb` fields in the returned document
-      //   projection: { title: 1, price: 1, service_id: 1, img: 1 },
-      // };
-
-      const result = await serviceCollection.findOne(query);
+      const options = {
+        projection: { title: 1, price: 1, service_id: 1, img: 1 },
+      };
+      const result = await serviceCollection.findOne(query, options);
       res.send(result);
     });
 
