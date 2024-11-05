@@ -33,7 +33,6 @@ const client = new MongoClient(uri, {
 
 // custom middlewares
 const logger = (req, res, next) => {
-  console.log("log: info", req.method, req.url);
   next();
 };
 
@@ -62,7 +61,6 @@ async function run() {
     //  JWT
     app.post("/jwt", logger, async (req, res) => {
       const user = req.body;
-      console.log(user);
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1h",
       });
@@ -97,10 +95,9 @@ async function run() {
 
     // get some data with query ( Read Operation )
     app.get("/bookings", logger, verifyToken, async (req, res) => {
-      console.log(req.user);
-      // if (req.user.email !== req.query.email) {
-      //   return res.status(403).send({ message: "forbidden access" });
-      // }
+      if (req.user.email !== req.query.email) {
+        return res.status(403).send({ message: "forbidden access" });
+      }
 
       let query = {};
       if (req.query?.email) {
